@@ -32,14 +32,14 @@ app.get('/', async (req, res) => {
     SELECT id, name, price, units
     FROM products
     WHERE id = ${id}   
-  `)
+  `);
 
-  return res.json({ products })
+  return res.json({ products });
 });
 
 app.post('/:id', async (req, res) => {
-  const { id } = req.params
-  const {name, price, units} = req.body
+  const { id } = req.params;
+  const { name, price, units } = req.body;
   // update product name, price, units
   await db.query(`
     UPDATE products
@@ -49,24 +49,24 @@ app.post('/:id', async (req, res) => {
       units = ${units},
       totalPrice = ${totalPrice(price, taxRate)}
     WHERE id = ${id}   
-  `)
+  `);
 
   const newProduct = db.query(`
     SELECT id, name, price, units
     FROM products
     WHERE id = ${id}  
-  `)
+  `);
 
-  return res.json({ products: [newProduct] })
-})
+  return res.json({ products: [newProduct] });
+});
 
 app.delete('/:id', async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   await db.query(`
     DELETE FROM products
     WHERE id = ${id}   
-  `)
-})
+  `);
+});
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
